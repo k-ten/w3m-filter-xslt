@@ -1,0 +1,22 @@
+#+TITLE:     README.org
+#+AUTHOR:    Hironori OKAMOTO
+#+EMAIL:     k.ten87@gmail.com
+#+DATE:      2011-05-24 Tue
+#+LANGUAGE:  ja
+
+* 概要
+emacs-w3m でレンダリングする前に、xsltproc を使って html を変更する。
+* 必要なもの
+- xsltproc
+* 使い方
+ダウンロードした w3m-filter-xslt.el にパスを通す。
+次に、例えば [[~/.emacs-w3m]] に
+#+begin_src emacs-lisp
+  (require 'w3m-filter-xslt)
+  (setq w3m-use-filter t)
+  (eval-after-load "w3m-filter"
+    '(add-to-list 'w3m-filter-rules
+                  '("\\`http://www\\.google\\.[^/]+/search\\?" w3m-filter-xslt-google) t))
+  
+#+end_src emacs-lisp
+と書く。
