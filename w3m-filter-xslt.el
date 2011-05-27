@@ -1,4 +1,4 @@
-;;; w3m-filter-xslt.el --- short description
+;;; w3m-filter-xslt.el --- xsltproc extension for w3m-filter
 
 ;; Copyright (C) 2011  Hironori OKAMOTO
 
@@ -27,7 +27,7 @@
 (require 'xml)
 
 (defun w3m-filter-xslt (url xsl)
-  (let ((file (make-temp-file "w3m-filter-xslt-")))
+  (let ((file (make-temp-file "w3m-filter-xslt-" nil ".xsl")))
     (with-temp-file file
       (xml-print
        `((xsl:stylesheet ((xmlns:xsl . "http://www.w3.org/1999/XSL/Transform")
@@ -42,13 +42,13 @@
     (call-process-region (point-min) (point-max)
 			 "xsltproc"
 			 t t nil
-			  "--encoding" "UTF-8" "--html" file "-")
+			 "--encoding" "UTF-8" "--html" file "-")
     (delete-file file))
   (delete-region (point-min) (re-search-backward "<html")))
 
 (defun w3m-filter-xslt-delete-class (url class)
   (w3m-filter-xslt url
-		   `((xsl:template ((match . ,(format "*[@class='%s']" id)))))))
+		   `((xsl:template ((match . ,(format "*[@class='%s']" class)))))))
 
 (defun w3m-filter-xslt-delete-id (url id)
   (w3m-filter-xslt url
