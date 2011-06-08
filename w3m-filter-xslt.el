@@ -46,15 +46,23 @@
     (delete-file file))
   (delete-region (point-min) (re-search-backward "<html")))
 
-(defun w3m-filter-xslt-delete-class (url class)
+(defun w3m-filter-xslt-delete-class (url &rest class)
   (w3m-filter-xslt
    url
-   `((xsl:template ((match . ,(format "*[@class='%s']" class)))))))
+   `((xsl:template ((match . ,(format "*[%s]"
+				      (mapconcat '(lambda (str)
+						    (format "@class='%s'" str))
+						 class
+						 " or "))))))))
 
-(defun w3m-filter-xslt-delete-id (url id)
+(defun w3m-filter-xslt-delete-id (url &rest id)
   (w3m-filter-xslt
    url
-   `((xsl:template ((match . ,(format "*[@id='%s']" id)))))))
+   `((xsl:template ((match . ,(format "*[%s]"
+				      (mapconcat '(lambda (str)
+						    (format "@id='%s'" str))
+						 id
+						 " or "))))))))
 
 (defun w3m-filter-xslt-google (url)
   (w3m-filter-xslt
