@@ -47,21 +47,24 @@
   (delete-region (point-min) (re-search-backward "<html")))
 
 (defun w3m-filter-xslt-delete-class (url class)
-  (w3m-filter-xslt url
-		   `((xsl:template ((match . ,(format "*[@class='%s']" class)))))))
+  (w3m-filter-xslt
+   url
+   `((xsl:template ((match . ,(format "*[@class='%s']" class)))))))
 
 (defun w3m-filter-xslt-delete-id (url id)
-  (w3m-filter-xslt url
-		   `((xsl:template ((match . ,(format "*[@id='%s']" id)))))))
+  (w3m-filter-xslt
+   url
+   `((xsl:template ((match . ,(format "*[@id='%s']" id)))))))
 
 (defun w3m-filter-xslt-google (url)
-  (w3m-filter-xslt url
-		   '((xsl:template ((match . "div[@id='nr_container']"))
-				   (xsl:element ((name . "table"))
-						(xsl:call-template ((name ."xcopy")))))
-		     (xsl:template ((match . "div[@id='nr_container']/div[@id='leftnav' or @id='center_col']"))
-				   (xsl:element ((name . "td"))
-						(xsl:call-template ((name ."xcopy"))))))))
+  (w3m-filter-xslt
+   url
+   '((xsl:template ((match . "div[@id='nr_container']"))
+		   (xsl:element ((name . "table"))
+				(xsl:call-template ((name ."xcopy")))))
+     (xsl:template ((match . "div[@id='nr_container']/div[@id='leftnav' or @id='center_col']"))
+		   (xsl:element ((name . "td"))
+				(xsl:call-template ((name ."xcopy"))))))))
 
 (provide 'w3m-filter-xslt)
 ;;; w3m-filter-xml.el ends here
