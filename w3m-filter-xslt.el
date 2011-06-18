@@ -30,8 +30,8 @@
   (let ((file (make-temp-file "w3m-filter-xslt-" nil ".xsl")))
     (with-temp-file file
       (xml-print
-       `((xsl:stylesheet ((xmlns:xsl . "http://www.w3.org/1999/XSL/Transform")
-			  (version . "1.0"))
+       `((xsl:stylesheet ((version . "1.0")
+			  (xmlns:xsl . "http://www.w3.org/1999/XSL/Transform"))
 			 (xsl:output ((method . "html")))
 			 (xsl:template ((name . "xcopy"))
 				       (xsl:copy nil
@@ -68,11 +68,11 @@
   (w3m-filter-xslt
    url
    '((xsl:template ((match . "div[@id='nr_container']"))
-		   (xsl:element ((name . "table"))
-				(xsl:call-template ((name ."xcopy")))))
+		   (table nil
+			  (xsl:call-template ((name ."xcopy")))))
      (xsl:template ((match . "div[@id='nr_container']/div[@id='leftnav' or @id='center_col']"))
-		   (xsl:element ((name . "td"))
-				(xsl:call-template ((name ."xcopy"))))))))
+		   (td nil
+		       (xsl:call-template ((name ."xcopy"))))))))
 
 (provide 'w3m-filter-xslt)
 ;;; w3m-filter-xml.el ends here
