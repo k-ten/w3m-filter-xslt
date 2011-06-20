@@ -74,5 +74,20 @@
 		   (td nil
 		       (xsl:call-template ((name ."xcopy"))))))))
 
+(defun w3m-filter-xslt-add-anchor (url xpath)
+  (w3m-filter-xslt
+   url
+   `((xsl:template ((match . ,xpath))
+		   (a ((name . "w3m-anchor"))
+		      (xsl:call-template ((name . "xcopy"))))))))
+
+(defun w3m-filter-xslt-anchor (url xpath)
+  (add-to-list 'w3m-filter-rules
+	       `(,url w3m-filter-xslt-add-anchor ,xpath)
+	       'append)
+  (add-to-list 'w3m-uri-replace-alist
+	       `(,url w3m-pattern-uri-replace "\\&#w3m-anchor")
+	       'append))
+
 (provide 'w3m-filter-xslt)
 ;;; w3m-filter-xml.el ends here

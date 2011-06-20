@@ -20,3 +20,9 @@ emacs-w3m でレンダリングする前に、xsltproc を使って html を変�
   
 #+end_src emacs-lisp
 と書く。
+** w3m-filter-xslt-anchor
+#+begin_src emacs-lisp
+  (w3m-filter-xslt-anchor "\\`http://www\\.google\\.[^/]+/search\\?.*\\'" "div[@id='center_col']")
+  
+#+end_src emacs-lisp
+とでもしてみる。
