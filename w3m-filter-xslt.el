@@ -30,15 +30,17 @@
   (let ((file (make-temp-file "w3m-filter-xslt-" nil ".xsl")))
     (with-temp-file file
       (xml-print
-       `((xsl:stylesheet ((version . "1.0")
-			  (xmlns:xsl . "http://www.w3.org/1999/XSL/Transform"))
-			 (xsl:output ((method . "html")))
-			 (xsl:template ((name . "xcopy"))
-				       (xsl:copy nil
-						 (xsl:apply-templates ((select . "*|text()|@*")))))
-			 ,@xsl
-			 (xsl:template ((match . "*|@*"))
-				       (xsl:call-template ((name . "xcopy"))))))))
+       `((xsl:stylesheet
+	  ((version . "1.0")
+	   (xmlns:xsl . "http://www.w3.org/1999/XSL/Transform"))
+	  (xsl:output ((method . "html")))
+	  (xsl:template ((name . "xcopy"))
+			(xsl:copy nil
+				  (xsl:apply-templates
+				   ((select . "*|text()|@*")))))
+	  ,@xsl
+	  (xsl:template ((match . "*|@*"))
+			(xsl:call-template ((name . "xcopy"))))))))
     (call-process-region (point-min) (point-max)
 			 "xsltproc"
 			 t t nil
@@ -63,16 +65,6 @@
 						    (format "@id='%s'" str))
 						 id
 						 " or "))))))))
-
-(defun w3m-filter-xslt-google (url)
-  (w3m-filter-xslt
-   url
-   '((xsl:template ((match . "div[@id='nr_container']"))
-		   (table nil
-			  (xsl:call-template ((name ."xcopy")))))
-     (xsl:template ((match . "div[@id='nr_container']/div[@id='leftnav' or @id='center_col']"))
-		   (td nil
-		       (xsl:call-template ((name ."xcopy"))))))))
 
 (defun w3m-filter-xslt-add-anchor (url xpath)
   (w3m-filter-xslt

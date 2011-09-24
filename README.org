@@ -16,13 +16,13 @@ emacs-w3m でレンダリングする前に、xsltproc を使って html を変�
   (setq w3m-use-filter t)
   (eval-after-load "w3m-filter"
     '(add-to-list 'w3m-filter-rules
-                  '("\\`http://www\\.google\\.[^/]+/search\\?" w3m-filter-xslt-google) t))
+                  '("\\`http://www\\.google\\.[^/]+/search\\?" w3m-filter-xslt-delete-class "esc") t))
   
 #+end_src emacs-lisp
 と書く。
 ** w3m-filter-xslt-anchor
 #+begin_src emacs-lisp
-  (w3m-filter-xslt-anchor "\\`http://www\\.google\\.[^/]+/search\\?.*\\'" "div[@id='center_col']")
+  (w3m-filter-xslt-anchor "\\`http://www\\.google\\.[^/]+/search\\?.*\\'" "*[@role='main']")
   
 #+end_src emacs-lisp
 とでもしてみる。
